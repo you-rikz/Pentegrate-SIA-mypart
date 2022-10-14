@@ -1,0 +1,17 @@
+{
+    "name": "user/pdc10_classes",
+    "autoload": {
+        "psr-4":{"Models\\": "models/"
+    }
+    },
+    "authors": [
+        {
+            "name": "jiaorem",
+            "email": "yabut.micohjomarie@auf.edu.ph"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.4",
+        "mustache/mustache": "~2.5"
+    }
+}
