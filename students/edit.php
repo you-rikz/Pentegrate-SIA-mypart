@@ -3,9 +3,13 @@
 include ("../init.php");
 use Models\Student;
 
-$student_id = $_POST['id'];
+$student_id = $_GET['id'];
+$student= new Student('', '', '', '', '', '');
+$student->setConnection($connection);
+$edit_student = $student->getById($student_id);
+
 $template = $mustache->loadTemplate('student/edit.mustache');
-echo $template->render();
+echo $template->render(compact('edit_student'));
 
 try {
 	if (isset($_POST['first_name'])) {
