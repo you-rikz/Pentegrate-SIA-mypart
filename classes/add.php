@@ -1,14 +1,14 @@
 <?php
 
 include ("../init.php");
-use Models\Student;
+use Models\Classes;
 
 
 $template = $mustache->loadTemplate('classes/add.mustache');
 echo $template->render();
 
 try {
-	if (isset($_POST['first_name'])) {
+	if (isset($_POST['name'])) {
 		$addClass = new Classes($_POST['name'], $_POST['description'], $_POST['class_code'], $_POST['teacher_id']);
 		$addClass->setConnection($connection);
 		$addClass->addClass();

@@ -1,11 +1,12 @@
-<?php
 
+<?php
 include ("../init.php");
 use Models\ClassRoster;
 
-$rosters= new ClassRoster('', '', '', '', '', '');
-$rosters->setConnection($connection);
-$list_rosters = $rosters->displayClassRoster();
-var_dump($list_rosters);
+$roster= new ClassRoster('', '', '', '', '', '');
+$roster->setConnection($connection);
+$all_rosters = $roster->displayClassRoster();
 
-?>
+$template = $mustache->loadTemplate('classroster/index.mustache');
+echo $template->render((compact('all_rosters')));
+
