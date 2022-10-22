@@ -1,4 +1,3 @@
-
 <?php
 include ("../init.php");
 use Models\Student;

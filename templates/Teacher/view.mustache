@@ -37,37 +37,25 @@ $(document).ready(function(){
 			<div class="table-title">
 				<div class="row">
 					<div class="col-sm-6">
-						<h2><b>Teachers</b></h2>
-					</div>
-					<div class="col-sm-6">	
-							<a href="../teachers/add.php" class="btn btn-success add-btn" style="margin-top:10px;"><i class="fa fa-plus"></i> Add Teacher</a>			
+						<h2><b>{{first_name}} {{last_name}}</b></h2>
 					</div>
 				</div>
 			</div>
 			
-			<table class="table table-striped table-hover">
+			<table class="table table-striped table-hover nowrap">
 				<thead>
 					<tr>
-						<th scope="col">ID</th>
-                        <th scope="col">First Name</th>
-                        <th scope="col">Last Name</th>
-						<th scope="col">Email</th>
-                        <th scope="col">Contact Number</th>
-                        <th scope="col">Employee Number</th>
+                        <th scope="col">Name</th>
+						<th scope="col">Description</th>
+                        <th scope="col">Class Code</th>
 					</tr>
 				</thead>
 				{{# all_teachers }}
 				<tbody>
             <tr>
-                <td scope="row">{{ teacher_id }}</td>
-				<td scope="row">{{ first_name }}</td>
-				<td scope="row">{{ last_name }}</td>
-				<td scope="row">{{ email }}</td>
-				<td scope="row">{{ contact_number }}</td>
-				<td scope="row">{{ employee_number }}</td>
-				<td><a href="view.php?teacher_id={{ teacher_id }}">VIEW</a></td>
-				<td><a href="edit.php?teacher_id={{ teacher_id }}">EDIT</a></td>
-				<td><a onClick=\"javascript: return confirm('Please confirm deletion');\" href="delete.php?teacher_id={{ teacher_id }}">DELETE</a></td>
+				<td scope="row">{{ name }}</td>
+				<td scope="row">{{ description }}</td>
+				<td scope="row">{{ class_code }}</td>
             </tr>
 				</tbody>
 				{{/ all_teachers }}

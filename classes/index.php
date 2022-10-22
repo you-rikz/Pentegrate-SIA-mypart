@@ -1,6 +1,7 @@
 <?php
 include ("../init.php");
 use Models\Classes;
+use Models\Teacher;
 
 $class= new Classes('', '', '', '', '', '');
 $class->setConnection($connection);

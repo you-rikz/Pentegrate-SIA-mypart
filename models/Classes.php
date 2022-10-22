@@ -6,7 +6,7 @@ use Exception;
 
 class Classes 
 {
-    protected $id;
+    protected $class_id;
 	protected $name;
 	protected $description;
 	protected $class_code;
@@ -24,7 +24,7 @@ class Classes
 	}
 
     public function getId() {
-        return $this->id;
+        return $this->class_id;
     }
 
     public function getName() {
@@ -50,7 +50,8 @@ class Classes
 
 	public function displayClasses(){
 		try {
-            $sql = "SELECT * FROM classes";
+            $sql = "SELECT * FROM classes INNER JOIN teachers on classes.teacher_id=teachers.teacher_id";
+
             $data = $this->connection->query($sql)->fetchAll();
             return $data;
         } catch (Exception $e) {
@@ -76,17 +77,18 @@ class Classes
 		}
     }
 
-    public function updateClass(){
+    public function updateClass($name, $description, $class_code, $teacher_id){
 		try {
 
-			$sql = "UPDATE classes SET name=:name, description=:description, class_code=:class_code, teacher_id=:teacher_id";
+			$sql = "UPDATE classes SET name=?, description=?, class_code=?, teacher_id=? WHERE class_id=?";
 			$statement = $this->connection->prepare($sql);
 
-			return $statement->execute([
-				':name' => $this->getName(),
-                ':description' => $this->getDescription(),
-				':class_code' => $this->getClassCode(),
-				':teacher_id' => $this->getTeacherId(),
+			$statement->execute([
+				$name, 
+				$description, 
+				$class_code, 
+				$teacher_id, 
+				$this->getId(),
 			]);
 
 		} catch (Exception $e) {
@@ -97,15 +99,11 @@ class Classes
     public function deleteClass(){
 		try {
 
-			$sql = "DELETE FROM classes WHERE id=$id";
+			$sql = "DELETE FROM classes WHERE class_id=?";
+			$statement = $this->connection->prepare($sql);
 
-			$statement = $pdo->prepare($sql);
-
-			return $statement->execute([
-				':name' => $this->getName(),
-                ':description' => $this->getDescription(),
-				':class_code' => $this->getClassCode(),
-				':teacher_id' => $this->getTeacherId(),
+			$statement->execute([
+				$this->getId()
 			]);
 
 		} catch (Exception $e) {
@@ -113,12 +111,38 @@ class Classes
 		}
     }
 
-	public function assignTeacher(){
-		try {
-			
+	public function getById($class_id){
+        try {
+            $sql = 'SELECT * FROM classes WHERE class_id=:class_id';
+			$statement = $this->connection->prepare($sql);
 
-		} catch (Exception $e) {
+			$statement->execute([
+				':class_id' => $class_id
+			]);
+
+            $row = $statement->fetch();
+            
+			$this->class_id = $row['class_id'];
+			$this->name = $row['name'];
+			$this->description = $row['description'];
+			$this->class_code = $row['class_code'];
+            $this->teacher_id = $row['teacher_id'];
+
+        } catch (Exception $e) {
 			error_log($e->getMessage());
 		}
+    }
+
+	public function displayClassRoster($class_id){
+		try {
+            $sql = "SELECT * FROM classes WHERE class_id=:class_id";
+            $statement = $this->connection->prepare($sql);
+			$statement->execute([
+				':class_id' => $class_id
+			]);
+            return $statement->fetch();
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+        }
 	}
 }

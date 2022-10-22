@@ -1,0 +1,56 @@
+<diagram program="umletino" version="15.0.0"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>80</x><y>120</y><w>480</w><h>240</h></coordinates><panel_attributes>Teachers
+--
+#teacher_id: int
+#first_name:string
+#last_name:string
+#email:string
+#contact_number:string
+#employee_number:string
+
+--
+displayTeachers()
+addTeacher()
+getById(teacher_id)
+updateTeacher(first_name, last_name, email, contact_number, employee_number)
+deleteTeacher()
+viewClasses(teacher_id)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>640</x><y>120</y><w>330</w><h>210</h></coordinates><panel_attributes>Classes
+--
+#class_id: int
+#name:string
+#descriptionr:string
+#class_code:string
+#teacher_id:int
+--
+displayClasses()
+addClass()
+updateClass(name, description, class_code, teacher_id)
+deleteClass()
+getById(class_id)
+displayClassRoster(class_id)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1010</x><y>120</y><w>530</w><h>230</h></coordinates><panel_attributes>Students
+--
+#class_id: int
+#first_name:string
+#last_name:string
+#student_number:string
+#email:string
+#contact_number:string
+#program:string
+--
+displayStudents()
+addStudent()
+getById(student_id)
+updateStudent(first_name, last_name, student_number, email, contact_number, program)
+deleteStudent()
+viewClasses(student_id)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>700</x><y>460</y><w>210</w><h>190</h></coordinates><panel_attributes>Class_Rosters
+--
+#roster_id: int
+#class_code:string
+#student_number:string
+#enrolled_at:timestamp
+--
+displayClassRosters()
+viewRoster(class_code)
+getById(roster_id)
+addClassRoster()
+deleteClass()
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>550</x><y>210</y><w>110</w><h>40</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;90;20</additional_attributes></element><element><id>Relation</id><coordinates><x>800</x><y>320</y><w>30</w><h>160</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;140;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>900</x><y>340</y><w>400</w><h>230</h></coordinates><panel_attributes></panel_attributes><additional_attributes>380;10;380;210;10;210</additional_attributes></element></diagram>

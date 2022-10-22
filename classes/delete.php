@@ -1,9 +1,14 @@
-
 <?php
 
-include "init.php";
+include ("../init.php");
+use Models\Classes;
 
-$class = new Todo('');
+$class_id = $_GET['class_id'] ?? null;
+
+$class = new Classes('','','','','','');
 $class->setConnection($connection);
-$class->getById(1);
-$class->delete();
+$class->getById($class_id);
+$class->deleteClass();
+
+echo "<script>window.location.href='index.php';</script>";
+exit;

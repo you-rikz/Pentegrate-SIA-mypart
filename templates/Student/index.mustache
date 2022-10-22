@@ -17,6 +17,14 @@
 
 <body>
 
+<!-- The sidebar -->
+<div class="sidebar">
+  <a class="active" href="../students/index.php">Students</a>
+  <a href="../teachers/index.php">Teachers</a>
+  <a href="../classes/index.php">Classes</a>
+  <a href="../class-rosters/index.php">Class Rosters</a>
+</div>
+
 <div class="container-xl">
 	<div class="table table-responsive">
 		<div class="table-wrapper">
@@ -46,14 +54,16 @@
 				{{# all_students }}
 				<tbody>
             <tr>
-                <td scope="row">{{ id }}</td>
+                <td scope="row">{{ student_id }}</td>
 				<td scope="row">{{ first_name }}</td>
 				<td scope="row">{{ last_name }}</td>
 				<td scope="row">{{ student_number }}</td>
 				<td scope="row">{{ email }}</td>
 				<td scope="row">{{ contact_number }}</td>
 				<td scope="row">{{ program }}</td>
-				<td><a href="edit.php?id={{ id }}">EDIT</a></td>
+				<td><a href="view.php?student_id={{ student_id }}">VIEW</a></td>
+				<td><a href="edit.php?student_id={{ student_id }}">EDIT</a></td>
+				<td><a onClick=\"javascript: return confirm('Please confirm deletion');\" href="delete.php?student_id={{ student_id }}">DELETE</a></td>
             </tr>
 				</tbody>
 				{{/ all_students }}
@@ -71,7 +81,8 @@ body {
 	font-size: 13px;
 }
 .table-responsive {
-    margin: 30px 0;
+	table-layout: fixed; 
+	white-space: nowrap;
 }
 .table-wrapper {
 	background: #fff;
@@ -137,6 +148,63 @@ table.table .avatar {
 
 .nowrap {
   white-space: nowrap;
+}
+
+/* The side navigation menu */
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #435d7d;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+/* Sidebar links */
+.sidebar a {
+  display: block;
+  color: white;
+  padding: 16px;
+  text-decoration: none;
+}
+
+/* Active/current link */
+.sidebar a.active {
+  background-color: #344861;
+  color: white;
+}
+
+/* Links on mouse-over */
+.sidebar a:hover:not(.active) {
+  background-color: #344861;
+  color: white;
+}
+
+/* Page content. The value of the margin-left property should match the value of the sidebar's width property */
+div.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 1000px;
+}
+
+/* On screens that are less than 700px wide, make the sidebar into a topbar */
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .sidebar a {float: left;}
+  div.content {margin-left: 0;}
+}
+
+/* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+@media screen and (max-width: 400px) {
+  .sidebar a {
+    text-align: center;
+    float: none;
+  }
 }
 </style>
 </html>

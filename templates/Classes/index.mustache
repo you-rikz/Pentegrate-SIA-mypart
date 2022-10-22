@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>PDC10 Students</title>
+<title>PDC10 Classes</title>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -22,16 +22,24 @@ $(document).ready(function(){
 </head>
 <body>
 
+<!-- The sidebar -->
+<div class="sidebar">
+  <a href="../students/index.php">Students</a>
+  <a href="../teachers/index.php">Teachers</a>
+  <a class="active" href="../classes/index.php">Classes</a>
+  <a href="../class-rosters/index.php">Class Rosters</a>
+</div>
+
 <div class="container-xl">
 	<div class="table table-responsive">
 		<div class="table-wrapper">
 			<div class="table-title">
 				<div class="row">
 					<div class="col-sm-6">
-						<h2><b>Students</b></h2>
+						<h2><b>Classes</b></h2>
 					</div>
 					<div class="col-sm-6">	
-							<a href="../classes/add.php" class="btn btn-success add-btn" style="margin-top:10px;"><i class="fa fa-plus"></i> Add Student</a>			
+							<a href="../classes/add.php" class="btn btn-success add-btn" style="margin-top:10px;"><i class="fa fa-plus"></i> Add Class</a>			
 					</div>
 				</div>
 			</div>
@@ -43,17 +51,19 @@ $(document).ready(function(){
                         <th scope="col">Name</th>
 						<th scope="col">Description</th>
                         <th scope="col">Class Code</th>
-                        <th scope="col">Teacher ID</th>
+                        <th scope="col">Assigned Teacher</th>
 					</tr>
 				</thead>
 				{{# all_classes }}
 				<tbody>
             <tr>
-                <td scope="row">{{ id }}</td>
+                <td scope="row">{{ class_id }}</td>
 				<td scope="row">{{ name }}</td>
 				<td scope="row">{{ description }}</td>
 				<td scope="row">{{ class_code }}</td>
-				<td scope="row">{{ teacher_id }}</td>
+				<td scope="row">{{ first_name }} {{ last_name }}</td>
+				<td><a href="edit.php?class_id={{ class_id }}">EDIT</a></td>
+				<td><a onClick=\"javascript: return confirm('Please confirm deletion');\" href="delete.php?class_id={{ class_id }}">DELETE</a></td>
             </tr>
 				</tbody>
 				{{/ all_classes }}
@@ -70,7 +80,8 @@ body {
 	font-size: 13px;
 }
 .table-responsive {
-    margin: 30px 0;
+	table-layout: fixed; 
+	white-space: nowrap;
 }
 .table-wrapper {
 	background: #fff;
@@ -136,6 +147,63 @@ table.table .avatar {
 
 .nowrap {
   white-space: nowrap;
+}
+
+/* The side navigation menu */
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #435d7d;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+/* Sidebar links */
+.sidebar a {
+  display: block;
+  color: white;
+  padding: 16px;
+  text-decoration: none;
+}
+
+/* Active/current link */
+.sidebar a.active {
+  background-color: #344861;
+  color: white;
+}
+
+/* Links on mouse-over */
+.sidebar a:hover:not(.active) {
+  background-color: #344861;
+  color: white;
+}
+
+/* Page content. The value of the margin-left property should match the value of the sidebar's width property */
+div.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 1000px;
+}
+
+/* On screens that are less than 700px wide, make the sidebar into a topbar */
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .sidebar a {float: left;}
+  div.content {margin-left: 0;}
+}
+
+/* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+@media screen and (max-width: 400px) {
+  .sidebar a {
+    text-align: center;
+    float: none;
+  }
 }
 </style>
 </html>

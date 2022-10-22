@@ -6,7 +6,7 @@ use Exception;
 
 class Teacher 
 {
-    protected $id;
+    protected $teacher_id;
     protected $first_name;
     protected $last_name;
     protected $email;
@@ -25,8 +25,8 @@ class Teacher
         $this->employee_number = $employee_number;
     }
 
-    public function getTeacherId() {
-        return $this->id;
+    public function getId() {
+        return $this->teacher_id;
     }
 
     public function getFirstName() {
@@ -57,8 +57,8 @@ class Teacher
     public function displayTeachers(){
 		try {
             $sql = "SELECT * FROM teachers";
-            $data = $this->connection->query($sql)->fetchAll();
-            return $data;
+            $statement = $this->connection->query($sql)->fetchAll();
+            return $statement;
         } catch (Exception $e) {
             error_log($e->getMessage());
         }
@@ -83,18 +83,41 @@ class Teacher
 		}
     }
 
-    public function updateClass(){
+    public function getById($teacher_id){
+        try {
+            $sql = 'SELECT * FROM teachers WHERE teacher_id=:teacher_id';
+			$statement = $this->connection->prepare($sql);
+			$statement->execute([
+				':teacher_id' => $teacher_id
+			]);
+
+            $row = $statement->fetch();
+            
+			$this->teacher_id = $row['teacher_id'];
+			$this->first_name = $row['first_name'];
+			$this->last_name = $row['last_name'];
+            $this->email = $row['email'];
+            $this->contact_number = $row['contact_number'];
+            $this->employee_number = $row['employee_number'];
+
+        } catch (Exception $e) {
+			error_log($e->getMessage());
+		}
+    }
+
+
+    public function updateTeacher($first_name, $last_name, $email, $contact_number, $employee_number){
 		try {
 
-			$sql = "UPDATE teachers SET first_name=:first_name, last_name=:last_name, email=:email, contact_number=:contact_number, employee_number=:employee_number";
-			$statement = $this->connection->prepare($sql);
-
-			return $statement->execute([
-				':first_name' => $this->getFirstName(),
-                ':last_name' => $this->getLastName(),
-                ':email' => $this->getEmail(),
-                ':contact_number' => $this->getContactNumber(),
-				':employee_number' => $this->getEmployeeNumber(),
+			$sql = "UPDATE teachers SET first_name=?, last_name=?, email=?, contact_number=?, employee_number=? WHERE teacher_id=?";
+            $statement = $this->connection->prepare($sql);
+			$statement->execute([
+                $first_name, 
+                $last_name, 
+                $email, 
+                $contact_number, 
+                $employee_number,
+                $this->getId()
 			]);
 
 		} catch (Exception $e) {
@@ -102,22 +125,31 @@ class Teacher
 		}
     }
 
-    public function deleteClass(){
+    public function deleteTeacher(){
 		try {
 
-			$sql = "DELETE FROM teachers WHERE id=$id";
+			$sql = "DELETE FROM teachers WHERE teacher_id=?";
 			$statement = $this->connection->prepare($sql);
 
-			return $statement->execute([
-				':first_name' => $this->getFirstName(),
-                ':last_name' => $this->getLastName(),
-                ':email' => $this->getEmail(),
-                ':contact_number' => $this->getContactNumber(),
-				':employee_number' => $this->getEmployeeNumber(),
+			$statement->execute([
+				$this->getId()
 			]);
 
 		} catch (Exception $e) {
 			error_log($e->getMessage());
 		}
     }
+    public function viewClasses($teacher_id){
+		try {
+            $sql = "SELECT * FROM teachers INNER JOIN classes on teachers.teacher_id=classes.teacher_id WHERE teachers.teacher_id=:teacher_id";
+            $statement = $this->connection->prepare($sql);
+			$statement->execute([
+				':teacher_id' => $teacher_id
+			]);
+            return $statement->fetchAll();
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+        }
+	}
+    
 }

@@ -6,7 +6,7 @@ use Exception;
 
 class Student 
 {
-    protected $id;
+    protected $student_id;
     protected $first_name;
     protected $last_name;
     protected $student_number;
@@ -25,7 +25,7 @@ class Student
     }
 
     public function getId() {
-        return $this->id;
+        return $this->student_id;
     }
 
     public function getFirstName() {
@@ -87,17 +87,18 @@ class Student
 		}
     }
 
-    public function getById($id){
+    public function getById($student_id){
         try {
-            $sql = 'SELECT * FROM students WHERE id=:id';
+            $sql = 'SELECT * FROM students WHERE student_id=:student_id';
 			$statement = $this->connection->prepare($sql);
+            
 			$statement->execute([
-				':id' => $id
+				':student_id' => $student_id
 			]);
 
             $row = $statement->fetch();
-
-			$this->id = $row['id'];
+            
+			$this->student_id = $row['student_id'];
 			$this->first_name = $row['first_name'];
 			$this->last_name = $row['last_name'];
 			$this->student_number = $row['student_number'];
@@ -105,24 +106,27 @@ class Student
             $this->contact_number = $row['contact_number'];
             $this->program = $row['program'];
 
+
         } catch (Exception $e) {
 			error_log($e->getMessage());
 		}
     }
 
-    public function updateStudent(){
+    public function updateStudent($first_name, $last_name, $student_number, $email, $contact_number, $program){
 		try {
 
-			$sql = "UPDATE students SET first_name=:?, last_name=:?, student_number=:?, email=:?, contact_number=:?, program=:?";
-			$statement = $this->connection->prepare($sql);
+			$sql = "UPDATE students SET first_name=?, last_name=?, student_number=?, email=?, contact_number=?, program=? WHERE student_id=?";
+            $statement = $this->connection->prepare($sql);
 
-			return $statement->execute([
-				':first_name' => $this->getFirstName(),
-                ':last_name' => $this->getLastName(),
-				':student_number' => $this->getStudentNumber(),
-				':email' => $this->getEmail(),
-                ':contact_number' => $this->getContactNumber(),
-                ':program' => $this->getProgram(),
+			$statement->execute([
+                $first_name, 
+                $last_name, 
+                $student_number, 
+                $email, 
+                $contact_number, 
+                $program,
+                $this->getId()
+                
 			]);
 
 		} catch (Exception $e) {
@@ -133,21 +137,29 @@ class Student
     public function deleteStudent(){
 		try {
 
-			$sql = "DELETE FROM students WHERE id=$id";
+			$sql = 'DELETE FROM students WHERE student_id=?';
+			$statement = $this->connection->prepare($sql);
 
-			$statement = $pdo->prepare($sql);
-
-			return $statement->execute([
-				':first_name' => $this->getFirstName(),
-                ':last_name' => $this->getLastName(),
-				':student_number' => $this->getStudentNumber(),
-				':email' => $this->getEmail(),
-                ':contact_number' => $this->getContactNumber(),
-                ':program' => $this->getProgram(),
+			$statement->execute([
+				$this->getId()
 			]);
 
 		} catch (Exception $e) {
 			error_log($e->getMessage());
 		}
     }
+
+    //wala pa roster
+    public function viewClasses($student_id){
+		try {
+            $sql = "SELECT * FROM students INNER JOIN class_rosters ON students.student_number=class_rosters.student_number INNER JOIN classes ON class_rosters.class_code=classes.class_code WHERE student_id=:student_id";
+            $statement = $this->connection->prepare($sql);
+			$statement->execute([
+				':student_id' => $student_id
+			]);
+            return $statement->fetchAll();
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+        }
+	}
 }
