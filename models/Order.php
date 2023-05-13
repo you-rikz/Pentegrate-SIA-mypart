@@ -4,34 +4,31 @@ use \PDO;
 
 class Cart
 {
-    protected $order_id;
-    protected $user_id;
-	protected $order_status;
-    protected $order_date;  
+    // protected $order_id;
+    // protected $user_id;
+	// protected $order_status;
+    // protected $order_date;  
 
-    public function __construct($order_id, $user_id, $order_status, $order_date)
-	{
-		$this->order_id= $order_id;
-		$this->user_id= $user_id;
-		$this->order_status= $order_status;
-		$this->order_date= $order_date;
-	}
+    // public function __construct()
+	// {
 
-	public function getOrderId(){
-		return $this->order_id;
-	}
+	// }
 
-	public function getUserId(){
-		return $this->user_id;
-	}
+	// public function getOrderId(){
+	// 	return $this->order_id;
+	// }
 
-	public function getOrderStatus(){
-		return $this->order_status;
-	}
+	// public function getUserId(){
+	// 	return $this->user_id;
+	// }
 
-	public function getCartItemQuantity(){
-		return $this->order_date;
-	}
+	// public function getOrderStatus(){
+	// 	return $this->order_status;
+	// }
+
+	// public function getCartItemQuantity(){
+	// 	return $this->order_date;
+	// }
 
     public function setConnection($connection)
 	{

@@ -1,16 +1,13 @@
 <?php
 
 include ("init.php");
-include ("session.php");
 use Models\Product;
 use Models\Cart;
 
-
-$user_id = $_SESSION['user_id'];
 $product_id = $_POST['product_id'];
 try {
     if(isset($_POST['product_id'])){
-        $price = new Product('','','','');
+        $price = new Product('','','','','');
         $price->setConnection($connection);
         $price = $price->getByProductId($_POST['product_id']);
         
@@ -21,7 +18,7 @@ try {
         $quantity = $_POST['cart_item_quantity'];
         $total_price = $product_price * $quantity;
         
-        $cart = new Cart($_POST['user_id'], $_POST['product_id'], $total_price, $_POST['cart_item_quantity']);
+        $cart = new Cart(1, $_POST['product_id'], 0, $total_price, $_POST['cart_item_quantity']);
         $cart->setConnection($connection);
         $cart = $cart->addToCart();
         echo '<script>alert("Added to Cart Successfully")</script>';
