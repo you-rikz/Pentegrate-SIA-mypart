@@ -2,32 +2,11 @@
 namespace Models;
 use \PDO;
 
-class Cart
+class Order
 {
-    // protected $order_id;
-    // protected $user_id;
-	// protected $order_status;
-    // protected $order_date;  
-
     // public function __construct()
 	// {
 
-	// }
-
-	// public function getOrderId(){
-	// 	return $this->order_id;
-	// }
-
-	// public function getUserId(){
-	// 	return $this->user_id;
-	// }
-
-	// public function getOrderStatus(){
-	// 	return $this->order_status;
-	// }
-
-	// public function getCartItemQuantity(){
-	// 	return $this->order_date;
 	// }
 
     public function setConnection($connection)
@@ -35,24 +14,46 @@ class Cart
 		$this->connection = $connection;
 	}
 
-    public function addToCart(){
-        try {
-            $sql = "INSERT INTO ptg_cart_items (user_id, product_id, order_status, cart_item_quantity) 
-            VALUES (?, ?, ?, ?) 
-            ON DUPLICATE KEY UPDATE total_price = total_price + ?, cart_item_quantity = cart_item_quantity + ? ";
-
+	public function recordOrder(){
+		try {
+			$sql = "INSERT INTO ptg_orders SET user_id=?, order_status=?"; 
 			$statement = $this->connection->prepare($sql);
-
 			return $statement->execute([
-                $this->getUserId(),
-                $this->getProductId(),
-				$this->getTotalPrice(),
-                $this->getCartItemQuantity(),
-				$this->getTotalPrice(), // added parameter for ON DUPLICATE KEY UPDATE
-                $this->getCartItemQuantity(), // added parameter for ON DUPLICATE KEY UPDATE
-            ]);
-        } catch (Exception $e) {
+				1,
+				'Checked Out'
+			]);
+
+		} catch (Exception $e) {
 			error_log($e->getMessage());
 		}
-    }
+	}
+
+    public function addOrderDetails($order_id, $product_id, $product_quantity){
+		try {
+			$sql = "INSERT INTO ptg_order_details SET order_id=?, product_id=?, product_quantity=?"; 
+			$statement = $this->connection->prepare($sql);
+			return $statement->execute([
+				$order_id,
+				$product_id,
+				$product_quantity,
+			]);
+
+		} catch (Exception $e) {
+			error_log($e->getMessage());
+		}
+	}
+
+	public function getOrderId($user_id){
+		try {
+			$sql = 'SELECT order_id FROM ptg_orders WHERE user_id=?';
+			$statement = $this->connection->prepare($sql);
+			$statement->execute([
+				$user_id
+			]);
+			return $statement->fetch();
+
+		} catch (Exception $e) {
+			error_log($e->getMessage());
+		}
+	}
 }

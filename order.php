@@ -29,10 +29,29 @@ $session = $checkout->data[0];
   $payment_intent = $session->payment_intent;
 
 $orders = new Order();
+$orders->setConnection($connection);
+$details = $orders->recordOrder();
+//var_dump($details);
+$order_detail_id = $orders->getOrderId(1);
+//var_dump($order_detail_id);
+$carts = new Cart('','', '', '', '');
+$carts->setConnection($connection);
+$cart = $carts->getCartItems(1);
+
+
+
+foreach($cart as $cart_item){
+  $order_id = $order_detail_id[0];
+  $product_id = $cart_item['product_id'];
+  $product_quantity = $cart_item['cart_item_quantity'];
+  $orders->addOrderDetails($order_id, $product_id, $product_quantity);
+}
+
+// var_dump($cart);
+//$orders->addOrderDetails($order_id, $product_id, $product_quantity);
 //$checkout->
-// $carts = new Cart('', '', '', '');
-// $carts->setConnection($connection);
-// $all_carts = $carts->getCartItems($user_id);
+
+
 
 // $product_id = $carts->getProductId();
 // $total_price = $carts->getTotalPrice();
