@@ -6,50 +6,57 @@ use Exception;
 
 class Student 
 {
-    protected $student_id;
-    protected $first_name;
-    protected $last_name;
-    protected $student_number;
-    protected $email;
-    protected $contact_number;
+    protected $studentId;
+    protected $firstName;
+    protected $lastName;
+    protected $birthdate;
+    protected $address;
     protected $program;
+    protected $contactNumber;
+    protected $emergencyContact;
 
-    public function __construct($first_name, $last_name, $student_number, $email, $contact_number, $program)
+    public function __construct($studentId, $firstName, $lastName, $birthdate, $address, $program, $contactNumber, $emergencyContact)
     {
-        $this->first_name = $first_name;
-        $this->last_name = $last_name;
-        $this->student_number = $student_number;
-        $this->email = $email;
-        $this->contact_number = $contact_number;
+        $this->studentId = $studentId;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->birthdate = $birthdate;
+        $this->address = $address;
         $this->program = $program;
+        $this->contactNumber = $contactNumber;
+        $this->emergencyContact = $emergencyContact;
     }
 
     public function getId() {
-        return $this->student_id;
+        return $this->studentId;
     }
 
     public function getFirstName() {
-        return $this->first_name;
+        return $this->firstName;
     }
 
     public function getLastName() {
-        return $this->last_name;
+        return $this->lastName;
     }
 
-    public function getStudentNumber() {
-        return $this->student_number;
+    public function getBirthdate() {
+        return $this->birthdate;
     }
 
-    public function getEmail() {
-        return $this->email;
-    }
-
-    public function getContactNumber() {
-        return $this->contact_number;
+    public function getAddress() {
+        return $this->address;
     }
 
     public function getProgram() {
         return $this->program;
+    }
+
+    public function getContact() {
+        return $this->contactNumber;
+    }
+
+    public function getEmergency() {
+        return $this->emergencyContact;
     }
 
     public function setConnection($connection)
@@ -152,12 +159,13 @@ class Student
     //wala pa roster
     public function viewClasses($student_id){
 		try {
-            $sql = "SELECT * FROM students INNER JOIN class_rosters ON students.student_number=class_rosters.student_number INNER JOIN classes ON class_rosters.class_code=classes.class_code WHERE student_id=:student_id";
+            $sql = "SELECT * FROM students INNER JOIN class_rosters ON students.student_number=class_rosters.student_number INNER JOIN classes ON class_rosters.class_code=classes.class_code WHERE students.id=:id";
             $statement = $this->connection->prepare($sql);
 			$statement->execute([
 				':student_id' => $student_id
 			]);
             return $statement->fetchAll();
+
         } catch (Exception $e) {
             error_log($e->getMessage());
         }
