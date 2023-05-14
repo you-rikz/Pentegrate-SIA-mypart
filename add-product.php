@@ -18,7 +18,7 @@ try {
         $quantity = $_POST['cart_item_quantity'];
         $total_price = $product_price * $quantity;
         
-        $cart = new Cart(1, $_POST['product_id'], 0, $total_price, $_POST['cart_item_quantity']);
+        $cart = new Cart(1, $_POST['product_id'] , $total_price, $_POST['cart_item_quantity']);
         $cart->setConnection($connection);
         $cart = $cart->addToCart();
         echo '<script>alert("Added to Cart Successfully")</script>';

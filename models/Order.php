@@ -4,10 +4,28 @@ use \PDO;
 
 class Order
 {
-    // public function __construct()
-	// {
+    protected $order_id;
+    protected $product_id;
+    protected $product_quantity;  
 
-	// }
+    public function __construct($order_id, $product_id, $product_quantity)
+	{
+		$this->order_id= $order_id;
+		$this->product_id= $product_id;
+		$this->product_quantity= $product_quantity;
+	}
+
+	public function getOrder(){
+		return $this->order_id;
+	}
+
+	public function getProductId(){
+		return $this->product_id;
+	}
+
+	public function getQuantity(){
+		return $this->product_quantity;
+	}
 
     public function setConnection($connection)
 	{
@@ -50,8 +68,24 @@ class Order
 			$statement->execute([
 				$user_id
 			]);
-			return $statement->fetch();
+			return $statement->fetchAll();
 
+		} catch (Exception $e) {
+			error_log($e->getMessage());
+		}
+	}
+
+	public function getOrderItems($order_id){
+		try{
+			$sql = 'SELECT * FROM ptg_order_details INNER JOIN ptg_orders ON ptg_order_details.order_id=ptg_orders.order_id INNER JOIN ptg_products ON ptg_order_details.product_id=ptg_products.product_id WHERE ptg_orders.user_id=1 AND ptg_order_details.order_id=?';
+			$statement = $this->connection->prepare($sql);
+			$statement->execute([
+				$order_id
+			]);
+			return $statement->fetchAll();
+
+			// $data = $this->connection->query($sql)->fetchAll();
+			// return $data;
 		} catch (Exception $e) {
 			error_log($e->getMessage());
 		}

@@ -91,22 +91,16 @@
                                         <th>Product</th>
                                         <th>Price</th>
                                         <th>Quantity</th>
-                                        <th>Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{# all_carts }}
+                                    {{# order_items }}
                                     <tr>
-                                        <td class="cart_product_img d-flex align-items-center">
-                                        <input type="hidden" name="product_id" value ="{{product_id}}"/>
-                                            <a href="product-page.php?product_id={{product_id}}"><img src="{{product_image}}" alt="Product"></a>
-                                            <h6 name="product_name">{{product_id}} {{ product_name }}</h6>
-                                        </td>
+                                        <td class="name" name="product_name"><span> {{ product_name }}</span></td>
                                         <td class="price" name="product_price"><span> {{ product_price }}</span></td>
-                                        <td class="qty" name="cart_item_quantity"><span> {{ cart_item_quantity }}</span></td>
-                                        <td class="total_price" name="total_price"><span>{{ total_price }}</span></td>
+                                        <td class="qty" name="product_quantity"><span> {{ product_quantity }}</span></td>
                                     </tr>
-                                    {{/ all_carts }}
+                                    {{/ order_items }}
                                 </tbody>
                             </table>
                         </div>
@@ -121,9 +115,9 @@
                                 <p>Final info</p>
                             </div>
                             <ul class="cart-total-chart">
-                                <li><span>Subtotal</span> <span>{{cart_total}}</span></li>
+                                <li><span>Subtotal</span> <span>{{ total }}</span></li>
                                 <li><span>Shipping</span> <span>Free</span></li>
-                                <li><span><strong>Total</strong></span> <span><strong>{{cart_total}}</strong></span></li>
+                                <li><span><strong>Total</strong></span> <span><strong>{{ total }}</strong></span></li>
                             </ul>
                         </div>
                     </div>

@@ -1,9 +1,8 @@
 <?php
 include ("init.php");
 use Models\Cart;   
-use Models\Checkout;    
 
-$carts = new Cart('', '', '', '');
+$carts = new Cart('', '', '','');
 $carts->setConnection($connection);
 $all_carts = $carts->getCart(1);
 

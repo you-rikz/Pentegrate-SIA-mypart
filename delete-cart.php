@@ -1,16 +1,19 @@
 <?php
 
 include ("init.php");
-include ("session.php");
 use Models\Cart;
 
-$user_id = $_SESSION['user_id'];
+try {
+    $carts = new Cart('', '', '','');
+    $carts->setConnection($connection);
+    $carts->clearCartItems(1);
 
-$carts = new Cart('', '', '', '');
-$carts->setConnection($connection);
-$carts->clearCartItems($user_id);
+    header("Location: cart.php");
+    exit();
+} catch (Exception $e) {
+    echo "<script>window.location.href='index.php?error='" . $e->getMessage() . ";</script>";
+    exit();
+}
 
-$template = $mustache->loadTemplate('cart.mustache');
-echo $template->render();
 
 

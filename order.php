@@ -7,66 +7,43 @@ use Models\Order;
 $stripe = new \Stripe\StripeClient(
     'sk_test_51LgIL6JDVdkZQkB8LlIgHQbRhd0nkWRJZmUlg32mJIleQ6DyHGmdMg2JXKk3wXWenDOaQ8fMGgmBBSt0wmJeY0HY00FjrBokRO'
   );
+
+try {
   $checkout = $stripe->checkout->sessions->all(['limit' => 1]);
 
-$jsonData = json_encode($checkout);
-file_put_contents("checkout_session.json", $jsonData);
+  $jsonData = json_encode($checkout);
+  file_put_contents("checkout_session.json", $jsonData);
 
-$session = $checkout->data[0];
-// $id = $session->id;
-// $line_items = $stripe->checkout->sessions->allLineItems($id, ['limit' => 5]);
+  // $session = $checkout->data[0];
+  // $amount_total = $session->amount_total;
+  // $id = $session->id;
 
-// $jsonData = json_encode($line_items);
-// file_put_contents("checkout_session.json", $jsonData);
+  // $currency = $session->currency;
+  // $email = $session->customer_details->email;
+  // $name = $session->customer_details->name;
+  // $payment_intent = $session->payment_intent;
 
-//var_dump($line_items);
+  $orders = new Order('','','');
+  $orders->setConnection($connection);
+  $orders->recordOrder();
+  $order_detail_id = $orders->getOrderId(1);
+  $detail_id = end($order_detail_id);
+  //var_dump($lastElement);
 
-  $id = $session->id;
-  $amount_total = $session->amount_total;
-  $currency = $session->currency;
-  $customer_details = $session->customer_details->email;
-  $name = $session->customer_details->name;
-  $payment_intent = $session->payment_intent;
+  $carts = new Cart('','', '', '');
+  $carts->setConnection($connection);
+  $cart = $carts->getCartItems(1);
 
-$orders = new Order();
-$orders->setConnection($connection);
-$details = $orders->recordOrder();
-//var_dump($details);
-$order_detail_id = $orders->getOrderId(1);
-//var_dump($order_detail_id);
-$carts = new Cart('','', '', '', '');
-$carts->setConnection($connection);
-$cart = $carts->getCartItems(1);
+  foreach($cart as $cart_item){
+    $order_id = $detail_id[0];
+    $product_id = $cart_item['product_id'];
+    $product_quantity = $cart_item['cart_item_quantity'];
+    $orders->addOrderDetails($order_id, $product_id, $product_quantity);
+  }
 
+  header("Location: order-page.php");
 
-
-foreach($cart as $cart_item){
-  $order_id = $order_detail_id[0];
-  $product_id = $cart_item['product_id'];
-  $product_quantity = $cart_item['cart_item_quantity'];
-  $orders->addOrderDetails($order_id, $product_id, $product_quantity);
+} catch (Exception $e) {
+    echo "<script>window.location.href='index.php?error='" . $e->getMessage() . ";</script>";
+    exit();
 }
-
-// var_dump($cart);
-//$orders->addOrderDetails($order_id, $product_id, $product_quantity);
-//$checkout->
-
-
-
-// $product_id = $carts->getProductId();
-// $total_price = $carts->getTotalPrice();
-// $quantity = $carts->getCartItemQuantity();
-
-// $prices[] = array();
-// foreach($all_carts as $carts){
-//     $product_price = $carts['total_price'];
-//     $p = array_push($prices,$product_price);
-// }
-
-
-// $cart_total = intval($prices[1]) + intval($prices[2]);
-
-// $template = $mustache->loadTemplate('cart.mustache');
-// echo $template->render(compact('all_carts','cart_total'));
-
-

@@ -7,14 +7,12 @@ class Cart
     protected $user_id;
     protected $product_id;
 	protected $total_price;
-    protected $cart_item_quantity;  
-	protected $status;  
+    protected $cart_item_quantity;   
 
-    public function __construct($user_id, $product_id, $status, $total_price, $cart_item_quantity)
+    public function __construct($user_id, $product_id, $total_price, $cart_item_quantity)
 	{
 		$this->user_id= $user_id;
 		$this->product_id= $product_id;
-		$this->status = $status;
 		$this->total_price= $total_price;
 		$this->cart_item_quantity= $cart_item_quantity;
 	}
@@ -35,10 +33,6 @@ class Cart
 		return $this->cart_item_quantity;
 	}
 
-	public function getStatus(){
-		return $this->status;
-	}
-
     public function setConnection($connection)
 	{
 		$this->connection = $connection;
@@ -46,8 +40,8 @@ class Cart
 
     public function addToCart(){
         try {
-            $sql = "INSERT INTO ptg_cart_items (user_id, product_id, status, total_price, cart_item_quantity) 
-            VALUES (?, ?, ?, ?, ?) 
+            $sql = "INSERT INTO ptg_cart_items (user_id, product_id, total_price, cart_item_quantity) 
+            VALUES (?, ?, ?, ?) 
             ON DUPLICATE KEY UPDATE total_price = total_price + ?, cart_item_quantity = cart_item_quantity + ? ";
 
 			$statement = $this->connection->prepare($sql);
@@ -55,7 +49,6 @@ class Cart
 			return $statement->execute([
                 $this->getUserId(),
                 $this->getProductId(),
-				$this->getStatus(),
 				$this->getTotalPrice(),
                 $this->getCartItemQuantity(),
 				$this->getTotalPrice(), // added parameter for ON DUPLICATE KEY UPDATE
@@ -68,7 +61,7 @@ class Cart
 
 	public function getCartItems($user_id){
 		try {
-			$sql = 'SELECT * FROM ptg_products INNER JOIN ptg_cart_items ON ptg_products.product_id=ptg_cart_items.product_id WHERE user_id=? AND status=0';
+			$sql = 'SELECT * FROM ptg_products INNER JOIN ptg_cart_items ON ptg_products.product_id=ptg_cart_items.product_id WHERE ptg_cart_items.user_id=?';
 			$statement = $this->connection->prepare($sql);
 			$statement->execute([
 				$user_id
@@ -114,20 +107,7 @@ class Cart
 
 	public function clearCartItems($user_id){
 		try {
-			$sql = 'DELETE FROM ptg_cart_items WHERE user_id=?';
-			$statement = $this->connection->prepare($sql);
-			$statement->execute([
-				$user_id
-			]);
-
-		} catch (Exception $e) {
-			error_log($e->getMessage());
-		}
-	}
-
-	public function checkout($user_id){
-		try {
-			$sql = 'DELETE FROM ptg_cart_items WHERE user_id=?';
+			$sql = "DELETE FROM ptg_cart_items WHERE user_id=?";
 			$statement = $this->connection->prepare($sql);
 			$statement->execute([
 				$user_id
