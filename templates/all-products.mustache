@@ -9,7 +9,7 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title  -->
-    <title>Karl - Fashion Ecommerce Template | Cart</title>
+    <title>Pentegrate Tech | Home</title>
 
     <!-- Favicon  -->
     <link rel="icon" href="img/core-img/favicon.ico">
@@ -24,8 +24,7 @@
 </head>
 
 <body>
-
-<div id="wrapper">
+    <div id="wrapper">
 
         <!-- ****** Header Area Start ****** -->
         <header class="header_area" >
@@ -64,10 +63,9 @@
                                 <nav class=" navbar-expand-lg ">
                                     <div id="karl-navbar">
                                         <ul class="navbar-nav animated" id="nav">
-                                            <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
+                                            <li class="nav-item active"><a class="nav-link" href="index.php">Home</a></li>
                                             <li class="nav-item"><a class="nav-link" href="#product1">Products</a></li>
                                             <li class="nav-item"><a class="nav-link" href="cart.php">Cart</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>
                                         </ul>
                                     </div>
                                 </nav>
@@ -79,63 +77,96 @@
         </header>
         <!-- ****** Header Area End ****** -->
 
-        <!-- ****** Cart Area Start ****** -->
-        <div class="cart_area section_padding_100 clearfix" style="padding: 0 0;">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="cart-table clearfix">
-                            <table class="table table-responsive">
-                                <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Price</th>
-                                        <th>Quantity</th>
-                                        <th>Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {{# all_carts }}
-                                    <tr>
-                                        <td class="cart_product_img d-flex align-items-center">
-                                            <a href="#"><img src="{{product_image}}" alt="Product"></a>
-                                            <h6>{{ product_name }}</h6>
-                                        </td>
-                                        <td class="price"><span> {{ product_price }}</span></td>
-                                        <td class="qty">
-                                            <div class="quantity">
-                                            <span> {{ product_price }}</span>
-                                            </div>
-                                        </td>
-                                        <td class="total_price"><span>{{ total_price }}</span></td>
-                                    </tr>
-                                    {{/ all_carts }}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-12 col-lg-4">
-                        <div class="cart-total-area mt-70">
-                            <div class="cart-page-heading">
-                                <h5>Cart total</h5>
-                                <p>Final info</p>
+
+        <!-- ****** Offer Area Start ****** -->
+        {{#all_products}}
+        <section id="product{{product_id}}" class="offer_area height-700 section_padding_100 bg-img" style="background-image: url({{product_image}}); background-size: auto;">
+            <div class="container h-100">
+                <div class="row h-100 align-items-end justify-content-end">
+                    <div class="col-12 col-md-8 col-lg-6">
+                        <div class="offer-content-area wow fadeInUp" data-wow-delay="1s">
+                            <h2>{{product_name}}<span class="karl-level">Hot</span></h2>
+                            <p>{{product_description}}</p>
+                            <div class="offer-product-price">
+                                <h3><span class="regular-price">$2550.90</span>{{product_price}}</h3>
                             </div>
-
-                            <ul class="cart-total-chart">
-                                <li><span>Subtotal</span> <span>$59.90</span></li>
-                                <li><span>Shipping</span> <span>Free</span></li>
-                                <li><span><strong>Total</strong></span> <span><strong>$59.90</strong></span></li>
-                            </ul>
-                            <a href="checkout.php" class="btn karl-checkout-btn">Proceed to checkout</a>
+                            <a href="product-page.php?product_id={{product_id}}" class="btn karl-btn mt-30">Buy Now</a>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- ****** Cart Area End ****** -->
+        </section>
+        {{/all_products}}
+        <!-- ****** Offer Area End ****** -->
+
+        <!-- ****** Popular Brands Area Start ****** -->
+        <section class="karl-testimonials-area section_padding_100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section_heading text-center">
+                            <h2>Testimonials</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-8">
+                        <div class="karl-testimonials-slides owl-carousel">
+
+                            <!-- Single Testimonial Area -->
+                            <div class="single-testimonial-area text-center">
+                                <span class="quote">"</span>
+                                <h6>Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. Aliquam finibus nulla quam, a iaculis justo finibus non. Suspendisse in fermentum nunc.Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. </h6>
+                                <div class="testimonial-info d-flex align-items-center justify-content-center">
+                                    <div class="tes-thumbnail">
+                                        <img src="img/bg-img/tes-1.jpg" alt="">
+                                    </div>
+                                    <div class="testi-data">
+                                        <p>Michelle Williams</p>
+                                        <span>Client, Los Angeles</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Single Testimonial Area -->
+                            <div class="single-testimonial-area text-center">
+                                <span class="quote">"</span>
+                                <h6>Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. Aliquam finibus nulla quam, a iaculis justo finibus non. Suspendisse in fermentum nunc.Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. </h6>
+                                <div class="testimonial-info d-flex align-items-center justify-content-center">
+                                    <div class="tes-thumbnail">
+                                        <img src="img/bg-img/tes-1.jpg" alt="">
+                                    </div>
+                                    <div class="testi-data">
+                                        <p>Michelle Williams</p>
+                                        <span>Client, Los Angeles</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Single Testimonial Area -->
+                            <div class="single-testimonial-area text-center">
+                                <span class="quote">"</span>
+                                <h6>Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. Aliquam finibus nulla quam, a iaculis justo finibus non. Suspendisse in fermentum nunc.Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. </h6>
+                                <div class="testimonial-info d-flex align-items-center justify-content-center">
+                                    <div class="tes-thumbnail">
+                                        <img src="img/bg-img/tes-1.jpg" alt="">
+                                    </div>
+                                    <div class="testi-data">
+                                        <p>Michelle Williams</p>
+                                        <span>Client, Los Angeles</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <!-- ****** Popular Brands Area End ****** -->
 
         <!-- ****** Footer Area Start ****** -->
         <footer class="footer_area">
@@ -149,8 +180,8 @@
                             </div>
                             <div class="copywrite_text d-flex align-items-center">
                                 <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> &amp; distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> &amp; distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                             </div>
                         </div>
                     </div>

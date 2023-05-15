@@ -9,5 +9,5 @@ $product = new Product('', '', '', '');
 $product->setConnection($connection);
 $product = $product->getByProductId($product_id);
 
-$template = $mustache->loadTemplate('product.mustache');
+$template = $mustache->loadTemplate('single-product.mustache');
 echo $template->render(compact('product'));
